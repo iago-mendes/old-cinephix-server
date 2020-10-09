@@ -7,7 +7,7 @@ type MediaType = mongoose.Document &
     image: string
     type: {isMovie: boolean, isSeries: boolean, isUniverse: boolean}
     genres: Array<string>
-    celebrities_characters: Array<{celebrity: string, character: string}>
+    relations: Array<{celebrity: string, character: string}>
 }
 
 const MediaSchema = new mongoose.Schema(
@@ -21,7 +21,7 @@ const MediaSchema = new mongoose.Schema(
         isUniverse: {type: Boolean, required: true}
     },
     genres: [{type: mongoose.Schema.Types.ObjectId, ref: 'Genre'}],
-    celebrities_characters:
+    relations:
     [{
         celebrity: {type: mongoose.Schema.Types.ObjectId, ref: 'Celebrity'},
         character: {type: mongoose.Schema.Types.ObjectId, ref: 'Character'}

@@ -16,7 +16,7 @@ const multerConfig =
             crypto.randomBytes(16, (error, hash) =>
             {
                 if (error) cb(error, '')
-                const fileName = `${hash.toString('hex')}-${file.originalname}`
+                const fileName = `${file.originalname}-${hash.toString('hex')}`
                 cb(null, fileName)
             })
         }
