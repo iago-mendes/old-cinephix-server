@@ -29,9 +29,9 @@ interface mediasRelations
     [media: string]: Array<{celebrity: string, character: string}>
 }
 
-export default class CelebrityController
+export default
 {
-    async create(req: Request, res: Response, next: NextFunction)
+    create: async (req: Request, res: Response, next: NextFunction) =>
     {
         try {
             const {name, relations} = req.body
@@ -60,9 +60,9 @@ export default class CelebrityController
         } catch (error) {
             next(error)
         }
-    }
+    },
 
-    async update(req: Request, res: Response, next: NextFunction)
+    update: async (req: Request, res: Response, next: NextFunction) =>
     {
         try {
             const {id} = req.params
@@ -118,9 +118,9 @@ export default class CelebrityController
         } catch (error) {
             next(error)
         }
-    }
+    },
 
-    async remove(req: Request, res: Response, next: NextFunction)
+    remove: async (req: Request, res: Response, next: NextFunction) =>
     {
         try {
             const {id} = req.params
@@ -134,9 +134,9 @@ export default class CelebrityController
         } catch (error) {
             next(error)
         }
-    }
+    },
 
-    async list(req: Request, res: Response, next: NextFunction)
+    list: async (req: Request, res: Response, next: NextFunction) =>
     {
         try {
             let list: List[] = []
@@ -157,9 +157,9 @@ export default class CelebrityController
         } catch (error) {
             next(error)
         }
-    }
+    },
 
-    async show(req: Request, res: Response, next: NextFunction)
+    show: async (req: Request, res: Response, next: NextFunction) =>
     {
         try {
             const {id} = req.params
