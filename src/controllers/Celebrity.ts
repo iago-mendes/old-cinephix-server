@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import fs from 'fs'
+import path from 'path'
 
 import Celebrity from '../models/Celebrity'
 import Character from '../models/Character'
@@ -70,13 +71,14 @@ export default
             let image = req.file.filename
 
             const celebrity = await Celebrity.findById(id)
-            if (celebrity !== null)
+            if (celebrity)
             {
-                if (image.slice(0, -36) === celebrity.image)
+                if (image.slice(0, -37) === celebrity.image)
                 {
-                    fs.unlinkSync(`../../uploads/${image}`)
+                    fs.unlinkSync(path.join(__dirname, '..', '..', 'uploads', image))
                     image = celebrity.image
                 }
+                else fs.unlinkSync(path.join(__dirname, '..', '..', 'uploads', celebrity.image))
                 if (relations !== celebrity.relations)
                 {
                     let charactersRelations: charactersRelations = {}
@@ -126,7 +128,7 @@ export default
             const {id} = req.params
             
             const celebrity = await Celebrity.findById(id)
-            fs.unlinkSync(`../../uploads/${celebrity?.image}`)
+            if (celebrity) fs.unlinkSync(path.join(__dirname, '..', '..', 'uploads', celebrity.image))
             
             const tmp = await Celebrity.findByIdAndDelete(id)
             res.status(200).send()

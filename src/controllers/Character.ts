@@ -49,10 +49,8 @@ export default
                     fs.unlinkSync(path.resolve(__dirname, '..', '..', 'uploads', image))
                     image = character.image
                 }
-                else {fs.unlinkSync(path.resolve(__dirname, '..', '..', 'uploads', character.image))
-            console.log('not equal')}
+                else fs.unlinkSync(path.resolve(__dirname, '..', '..', 'uploads', character.image))
             }
-
             const tmp = await Character.findByIdAndUpdate(id, {_id: id, name, image})
             res.status(200).send()
             return tmp
