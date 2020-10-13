@@ -5,6 +5,7 @@ import path from 'path'
 
 import { password, dbname } from './config/credentials'
 import routes from './routes'
+import errorHandler from './errors/handler'
 
 const app = express()
 
@@ -22,5 +23,6 @@ mongoose.connection
 
 app.use(routes)
 app.use('/uploads', express.static(path.resolve(__dirname, '..', 'uploads')))
+app.use(errorHandler)
 
 app.listen(7070, () => console.log('server is running'))
