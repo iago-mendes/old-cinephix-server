@@ -44,7 +44,7 @@ export default
     list: async (req: Request, res: Response, next: NextFunction) =>
     {
         try {
-            const genres = Genre.find()
+            const genres = await Genre.find()
             return res.json(genres)
         } catch (error) {
             next(error)

@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import fs from 'fs'
+import path from 'path'
 
 import Celebrity from '../models/Celebrity'
 import Character from '../models/Character'
@@ -26,7 +27,7 @@ export default
         try {
             const {name, type, genres} = req.body
             const image = req.file.filename
-            await Media.create({name, image, type, genres, relations: []})
+            await Media.create({name, image, type, genres: [], relations: []})
             return res.status(201).send()
         } catch (error) {
             next(error)
@@ -37,7 +38,7 @@ export default
     {
         try {
             const {id} = req.params
-            const {name, type, genres, relations} = req.body
+            const {name/*, type, genres, relations*/} = req.body
             let image = req.file.filename
 
             const media = await Media.findById(id)
@@ -45,13 +46,13 @@ export default
             {
                 if (image.slice(0, -37) === media.image)
                 {
-                    fs.unlinkSync(`../../uploads/${image}`)
+                    fs.unlinkSync(path.resolve(__dirname, '..', '..', 'uploads', image))
                     image = media.image
                 }
-                else fs.unlinkSync(`../../uploads/${media.image}`)
+                else fs.unlinkSync(path.resolve(__dirname, '..', '..', 'uploads', media.image))
             }
 
-            const tmp = await Media.findByIdAndUpdate(id, {_id: id, name, image, type, genres, relations})
+            const tmp = await Media.findByIdAndUpdate(id, {_id: id, name, image/*, type, genres, relations*/})
             res.status(200).send()
             return tmp
         } catch (error) {
@@ -65,7 +66,7 @@ export default
             const {id} = req.params
             
             const media = await Media.findById(id)
-            fs.unlinkSync(`../../uploads/${media?.image}`)
+            fs.unlinkSync(path.resolve(__dirname, '..', '..', 'uploads', String(media?.image)))
             
             const tmp = await Media.findByIdAndDelete(id)
             res.status(200).send()

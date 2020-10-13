@@ -72,7 +72,7 @@ export default
             const celebrity = await Celebrity.findById(id)
             if (celebrity !== null)
             {
-                if (image.slice(0, -37) === celebrity.image)
+                if (image.slice(0, -36) === celebrity.image)
                 {
                     fs.unlinkSync(`../../uploads/${image}`)
                     image = celebrity.image

@@ -16,9 +16,9 @@ const MediaSchema = new mongoose.Schema(
     image: {type: String, required: true},
     type:
     {
-        isMovie: {type: Boolean, required: true},
-        isSeries: {type: Boolean, required: true},
-        isUniverse: {type: Boolean, required: true}
+        isMovie: {type: Boolean},
+        isSeries: {type: Boolean},
+        isUniverse: {type: Boolean}
     },
     genres: [{type: mongoose.Schema.Types.ObjectId, ref: 'Genre'}],
     relations:

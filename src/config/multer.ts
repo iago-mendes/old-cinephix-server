@@ -16,7 +16,7 @@ const multerConfig =
             crypto.randomBytes(16, (error, hash) =>
             {
                 if (error) cb(error, '')
-                const fileName = `${file.originalname}-${hash.toString('hex')}`
+                const fileName = `${file.originalname}-${hash.toString('hex')}.png`
                 cb(null, fileName)
             })
         }
@@ -27,7 +27,7 @@ const multerConfig =
     },
     fileFilter: (req: any, file: Express.Multer.File, cb: (error: Error | null, param?: boolean) => void) =>
     {
-        const allowedMimes = ['image/jpeg', 'image/png']
+        const allowedMimes = ['image/jpg', 'image/png']
         if(allowedMimes.includes(file.mimetype)) cb(null, true)
         else cb(new Error('Invalid file type.'))
     }

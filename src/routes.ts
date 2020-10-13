@@ -12,26 +12,26 @@ import Media from './controllers/Media'
 import Genre from './controllers/Genre'
 
 routes.post('/celebrities', upload.single('image'), Celebrity.create)
-routes.post('/celebrities/:id', upload.single('image'), Celebrity.update)
-routes.post('/celebrities/:id', Celebrity.remove)
-routes.post('/celebrities', Celebrity.list)
-routes.post('/celebrities/:id', Celebrity.show)
+routes.put('/celebrities/:id', upload.single('image'), Celebrity.update)
+routes.delete('/celebrities/:id', Celebrity.remove)
+routes.get('/celebrities', Celebrity.list)
+routes.get('/celebrities/:id', Celebrity.show)
 
 routes.post('/characters', upload.single('image'), Character.create)
-routes.post('/characters/:id', upload.single('image'), Character.update)
-routes.post('/characters/:id', Character.remove)
-routes.post('/characters', Character.list)
-routes.post('/characters/:id', Character.show)
+routes.put('/characters/:id', upload.single('image'), Character.update)
+routes.delete('/characters/:id', Character.remove)
+routes.get('/characters', Character.list)
+routes.get('/characters/:id', Character.show)
 
 routes.post('/media', upload.single('image'), Media.create)
-routes.post('/media/:id', upload.single('image'), Media.update)
-routes.post('/media/:id', Media.remove)
-routes.post('/media', Media.list)
-routes.post('/media/:id', Media.show)
+routes.put('/media/:id', upload.single('image'), Media.update)
+routes.delete('/media/:id', Media.remove)
+routes.get('/media', Media.list)
+routes.get('/media/:id', Media.show)
 
 routes.post('/genres', Genre.create)
-routes.post('/genres/:id', Genre.update)
-routes.post('/genres/:id', Genre.remove)
-routes.post('/genres', Genre.list)
+routes.put('/genres/:id', Genre.update)
+routes.delete('/genres/:id', Genre.remove)
+routes.get('/genres', Genre.list)
 
 export default routes

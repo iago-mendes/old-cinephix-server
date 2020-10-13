@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import fs from 'fs'
+import path from 'path'
 
 import Celebrity from '../models/Celebrity'
 import Character from '../models/Character'
@@ -37,7 +38,7 @@ export default
     {
         try {
             const {id} = req.params
-            const {name, relations} = req.body
+            const {name} = req.body
             let image = req.file.filename
 
             const character = await Character.findById(id)
@@ -45,13 +46,14 @@ export default
             {
                 if (image.slice(0, -37) === character.image)
                 {
-                    fs.unlinkSync(`../../uploads/${image}`)
+                    fs.unlinkSync(path.resolve(__dirname, '..', '..', 'uploads', image))
                     image = character.image
                 }
-                else fs.unlinkSync(`../../uploads/${character.image}`)
+                else {fs.unlinkSync(path.resolve(__dirname, '..', '..', 'uploads', character.image))
+            console.log('not equal')}
             }
 
-            const tmp = await Character.findByIdAndUpdate(id, {_id: id, name, image, relations})
+            const tmp = await Character.findByIdAndUpdate(id, {_id: id, name, image})
             res.status(200).send()
             return tmp
         } catch (error) {
@@ -65,7 +67,7 @@ export default
             const {id} = req.params
             
             const character = await Character.findById(id)
-            fs.unlinkSync(`../../uploads/${character?.image}`)
+            fs.unlinkSync(path.resolve(__dirname, '..', '..', 'uploads', String(character?.image)))
             
             const tmp = await Character.findByIdAndDelete(id)
             res.status(200).send()
@@ -105,30 +107,33 @@ export default
             const character = await Character.findById(id)
             let relations: Relation[] = []
 
-            if (character !== null)
+            if (character)
             {
-                const promises = character.relations.map(async ({celebrity, media}) =>
+                if (character.relations)
                 {
-                    const tmpCelebrity = await Celebrity.findById(celebrity)
-                    const tmpMedia = await Media.findById(media)
-
-                    relations.push(
+                    const promises = character.relations.map(async ({celebrity, media}) =>
                     {
-                        celebrity:
+                        const tmpCelebrity = await Celebrity.findById(celebrity)
+                        const tmpMedia = await Media.findById(media)
+
+                        relations.push(
                         {
-                            id: tmpCelebrity?._id,
-                            name: String(tmpCelebrity?.name),
-                            image: String(tmpCelebrity?.image)
-                        },
-                        media:
-                        {
-                            id: tmpMedia?._id,
-                            name: String(tmpMedia?.name),
-                            image: String(tmpMedia?.image)
-                        }
+                            celebrity:
+                            {
+                                id: tmpCelebrity?._id,
+                                name: String(tmpCelebrity?.name),
+                                image: String(tmpCelebrity?.image)
+                            },
+                            media:
+                            {
+                                id: tmpMedia?._id,
+                                name: String(tmpMedia?.name),
+                                image: String(tmpMedia?.image)
+                            }
+                        })
                     })
-                })
-                await Promise.all(promises)
+                    await Promise.all(promises)
+                }
 
                 return res.json(
                 {
